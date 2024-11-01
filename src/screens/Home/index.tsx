@@ -1,4 +1,5 @@
-import { Image,  ScrollView,  StyleSheet, Text, View } from 'react-native';
+import { Image, ScrollView, StyleSheet, Text, View, Modal, Button, TouchableOpacity } from 'react-native';
+import { useState } from 'react';
 import logo from '../../assets/logo (1).png';
 import setting from '../../assets/setting.png';
 import mastercard from '../../assets/mastercard.png';
@@ -8,50 +9,91 @@ import boleto from '../../assets/boleto.png';
 import dinheiro from '../../assets/dinheiro.png';
 
 export function Home() {
+  const [showPixInfo, setShowPixInfo] = useState(false);
+  const [showBoletoInfo, setShowBoletoInfo] = useState(false);
+  const [showDepositoInfo, setShowDepositoInfo] = useState(false);
+
   return (
     <View style={styles.container}>
       <View style={styles.content}>
         <View style={styles.header}>
           <Image source={logo} />
-          <Image source= {setting}/>
+          <Image source={setting} />
         </View>
         <View style={styles.card}>
           <View style={styles.cardHeader}>
             <View />
-            <Image source={mastercard}/>
+            <Image source={mastercard} />
           </View>
           <Text style={styles.cardText}>Wanderson Costa</Text>
         </View>
-        <View style={styles.cardDetails}> 
+        <View style={styles.cardDetails}>
           <View style={styles.cardDetailsHeader}>
-              <Text style={styles.cardDetailsHeaderText}>Saldo disponível</Text>
-              <Image source={wallet}/>
+            <Text style={styles.cardDetailsHeaderText}>Saldo disponível</Text>
+            <Image source={wallet} />
           </View>
           <Text style={styles.cardDetailsText}>R$5450,20</Text>
         </View>
       </View>
       <View style={styles.footer}>
         <Text style={styles.footerText}>Do que precisa?</Text>
-
         <ScrollView style={styles.footerContentScroollView} showsHorizontalScrollIndicator={false} horizontal={true}>
-          <View style={styles.footerCard}>
+          <TouchableOpacity style={styles.footerCard} onPress={() => setShowPixInfo(true)}>
             <Image source={pix} />
             <Text style={styles.footerCardText}>Fazer um Pix</Text>
-          </View>
-          <View style={styles.footerCard}>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.footerCard} onPress={() => setShowBoletoInfo(true)}>
             <Image source={boleto} />
             <Text style={styles.footerCardText}>Pagar um Boleto</Text>
-          </View>
-          <View style={styles.footerCard}>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.footerCard} onPress={() => setShowDepositoInfo(true)}>
             <Image source={dinheiro} />
             <Text style={styles.footerCardText}>Fazer um Depósito</Text>
-          </View>
-          <View style={styles.footerCard}>
-            <Image source={pix} />
-            <Text style={styles.footerCardText}>Fazer um Pix</Text>
-          </View>
+          </TouchableOpacity>
         </ScrollView>
       </View>
+
+      {/* Modal for Pix */}
+      <Modal visible={showPixInfo} transparent={true} animationType="slide">
+        <View style={styles.modalContainer}>
+          <View style={styles.modalContent}>
+            <Text style={styles.modalText}>Informações para fazer um Pix:</Text>
+            <Text style={styles.modalText}>Banco: Nubank</Text>
+            <Text style={styles.modalText}>Agência: 0001</Text>
+            <Text style={styles.modalText}>Conta: 123456-7</Text>
+            <Text style={styles.modalText}>Chave Pix: wandersonteixeira@gmail.com</Text>
+            <Button title="Fechar" onPress={() => setShowPixInfo(false)} />
+          </View>
+        </View>
+      </Modal>
+
+      {/* Modal for Boleto */}
+      <Modal visible={showBoletoInfo} transparent={true} animationType="slide">
+        <View style={styles.modalContainer}>
+          <View style={styles.modalContent}>
+            <Text style={styles.modalText}>Informações para pagar um Boleto:</Text>
+            <Text style={styles.modalText}>Banco: Banco do Brasil</Text>
+            <Text style={styles.modalText}>Agência: 1234</Text>
+            <Text style={styles.modalText}>Conta: 567890-0</Text>
+            <Text style={styles.modalText}>Código do Boleto: 12343.89657 12342.869365 09234.786406 0 000000000088756</Text>
+            <Button title="Fechar" onPress={() => setShowBoletoInfo(false)} />
+          </View>
+        </View>
+      </Modal>
+
+      {/* Modal for Depósito */}
+      <Modal visible={showDepositoInfo} transparent={true} animationType="slide">
+        <View style={styles.modalContainer}>
+          <View style={styles.modalContent}>
+            <Text style={styles.modalText}>Informações para fazer um Depósito:</Text>
+            <Text style={styles.modalText}>Banco: Caixa Econômica</Text>
+            <Text style={styles.modalText}>Agência: 5678</Text>
+            <Text style={styles.modalText}>Conta: 123456-7</Text>
+            <Text style={styles.modalText}>Nome: Wanderson Costa</Text>
+            <Button title="Fechar" onPress={() => setShowDepositoInfo(false)} />
+          </View>
+        </View>
+      </Modal>
     </View>
   );
 }
@@ -60,7 +102,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#820AD1',
-    
   },
   content: {
     paddingHorizontal: 30,
@@ -69,7 +110,7 @@ const styles = StyleSheet.create({
     width: '100%',
     flexDirection: 'row',
     alignItems: 'center',
-    justifyContent:'space-between',
+    justifyContent: 'space-between',
     paddingTop: 40,
   },
   card: {
@@ -94,7 +135,7 @@ const styles = StyleSheet.create({
   cardHeader: {
     flexDirection: 'row',
     alignItems: 'center',
-    justifyContent:'space-between',
+    justifyContent: 'space-between',
   },
   cardText: {
     color: '#fff',
@@ -103,7 +144,7 @@ const styles = StyleSheet.create({
     fontWeight: '600',
   },
   cardDetailsHeader: {
-    justifyContent:'space-between',
+    justifyContent: 'space-between',
     flexDirection: 'row',
   },
   cardDetailsText: {
@@ -143,5 +184,23 @@ const styles = StyleSheet.create({
   },
   footerContentScroollView: {
     height: 400,
-  }
+  },
+  modalContainer: {
+    flex: 1,
+    backgroundColor: '#820AD1',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  modalContent: {
+    backgroundColor: '#fff',
+    padding: 20,
+    borderRadius: 10,
+    width: '85%',
+    alignItems: 'center',
+  },
+  modalText: {
+    marginBottom: 10,
+    fontSize: 16,
+    color: '#333',
+  },
 });
